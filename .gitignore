@@ -103,4 +103,9 @@ dist
 # TernJS port file
 .tern-port
 
+#editor file
 .idea
+
+
+# dotenv environment variables file
+.env

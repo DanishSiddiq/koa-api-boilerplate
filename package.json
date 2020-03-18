@@ -4,7 +4,7 @@
   "description": "koa framework based boilerplate using single database",
   "main": "app.js",
   "scripts": {
-    "dev": "NODE_ENV=dev DB_HOST=mongodb://192.168.99.100:37017/dcs DB_OPT='{\"poolSize\":5,\"native_parser\":true,\"useNewUrlParser\":true,\"useUnifiedTopology\":true}' nodemon ./index.js",
+    "dev": "nodemon ./index.js",
     "start": "node ./index.js",
     "test": "jest"
   },
