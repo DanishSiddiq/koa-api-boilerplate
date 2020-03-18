@@ -11,7 +11,10 @@ const app = require('./app');
         handleExit();
 
         const APP_PORT  =  configServer.port;
-        app.server      = http.createServer(app.callback()).listen(APP_PORT, () => {
+        app.server      = http.createServer(app.callback());
+        
+        // listening on port
+        app.server.listen(APP_PORT, () => {
             logInfoDetails({message: `Koa boilerplate app listening on port:${APP_PORT}`});
         });
 
