@@ -2,7 +2,7 @@ const mongoose            = require('mongoose');
 const { MONGO_CONNECTED } = require('../constants/info-constants');
 const databaseConfig      = require('../config').databaseConfig;
 
-const { logErrDetails, logInfoDetails } = require('../helper/logger');
+const { logErrDetails, logInfoDetails } = require('../helpers/logger');
 
 /**
  *

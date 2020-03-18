@@ -1,8 +1,8 @@
-const path = require('path');
-const fs = require('fs');
-const HttpStatus = require('http-status-codes');
-const { logErrDetails } = require('../../helper/logger');
-const { checkHealthMongoDb } = require('../../database-connections/db.mongo');
+const path        = require('path');
+const fs          = require('fs');
+const HttpStatus  = require('http-status-codes');
+const { logErrDetails }       = require('../../helpers/logger');
+const { checkHealthMongoDb }  = require('../../database-connections/db.mongo');
 
 let version = '';
 
@@ -31,25 +31,22 @@ const readVersion = () => {
 };
 
 /**
- *
- * @param req
- * @param res
+ * 
+ * @param {*} ctx 
  */
-const ping = (req, res) => {
-  res.json({
-    ok: 'ok',
-  });
+const ping = async ctx => {
+  ctx.status = HttpStatus.OK;
+  ctx.body   = { ok: 'ok' };
 };
 
 /**
- *
- * @param req
- * @param res
+ * 
+ * @param {*} ctx 
  */
-const getVersion = (req, res) => {
-  res.json({
-    version: readVersion(),
-  });
+const getVersion = async ctx => {
+
+  ctx.status  = HttpStatus.OK;
+  ctx.body    = { version: readVersion() };
 };
 
 /**
@@ -58,7 +55,8 @@ const getVersion = (req, res) => {
  * @param res
  * @returns {Promise<void>}
  */
-const checkHealth = async (req, res) => {
+const checkHealth = async ctx => {
+
   let mongoHealth = null;
   let redisHealth = true;
   let errorMessage = '';
@@ -78,18 +76,17 @@ const checkHealth = async (req, res) => {
   }
 
   if (redisHealth != null && mongoHealth != null) {
-    res.json({
-      status: HttpStatus.OK,
-      version: readVersion(),
-      mongo: mongoHealth,
+    ctx.status  = HttpStatus.OK;
+    ctx.body    = {  
+      status: HttpStatus.OK,      
+      version: readVersion(),      
+      mongo: mongoHealth,  
       redis: redisHealth,
-    });
+    };
   } else {
     logErrDetails({ message: 'Error in health api', additionalData: { redisHealth, mongoHealth } });
-    res.status(HttpStatus.SERVICE_UNAVAILABLE).json({
-      status: HttpStatus.SERVICE_UNAVAILABLE,
-      message: errorMessage,
-    });
+    ctx.status  = HttpStatus.SERVICE_UNAVAILABLE;
+    ctx.body    = { message: errorMessage };
   }
 };
 

@@ -14,7 +14,7 @@ const { mongoDbConnect } = require('./database-connections/db.mongo');
 // const swaggerDocument    = require('./swagger.json');
 
 // routers file
-// const routerHealth  = require('./module/health/health.route');
+const routerHealth  = require('./modules/health/health.route');
 // const routerStudent = require('./module/student/student.route');
 
 // middle-wares
@@ -23,7 +23,6 @@ const { mongoDbConnect } = require('./database-connections/db.mongo');
 
 // rabbitmq if required producer & listener
 // const { initiateRabbitMQ } = require('./queues/connection/rabbitmq');
-
 
 const app = new koa();
 
@@ -37,14 +36,6 @@ if (!serverConfig.isTest) {
     mongoDbConnect('DCS');
 }
 
-
-
-// Connect to multiple DB's
-if (process.env.NODE_ENV !== 'test') {
-
- 
-}
-
 // middlwares and server configurations
 app
   .use(errorHandler)
@@ -53,9 +44,11 @@ app
   .use(cors)
   .use(bodyParser);
 
+// health routes
+routerHealth(app);
+
 
 // app 
-//   .use('/', routerHealth)
 //   .use('/', ConfigLoaderMiddleware, routerStudent)
 //   .use(RouteNotFoundMiddleware) // RouteNotFound middle-wares must
 
