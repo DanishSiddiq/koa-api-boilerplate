@@ -1,7 +1,7 @@
 const http = require('http');
 
-const { handleExit }                        = require('./helper/fatal');
-const { logInfoDetails, logErrDetails }     = require('./helper/logger');
+const { handleExit }                        = require('./helpers/fatal');
+const { logInfoDetails, logErrDetails }     = require('./helpers/logger');
 const configServer                          = require('./config').server;
 
 const app = require('./app');
@@ -11,10 +11,10 @@ const app = require('./app');
         handleExit();
 
         const APP_PORT  =  configServer.port;
-        app.server      = http.createServer(app);
-        app
-        .server
-        .listen(APP_PORT, () => {
+        app.server      = http.createServer(app.callback());
+        
+        // listening on port
+        app.server.listen(APP_PORT, () => {
             logInfoDetails({message: `Koa boilerplate app listening on port:${APP_PORT}`});
         });
 
@@ -26,4 +26,3 @@ const app = require('./app');
 })();
 
 module.exports = app;
-

@@ -1,5 +1,5 @@
 module.exports = async (ctx, next) => {
-  try {
+  try {    
     await next();
   } catch (err) {
     if (err.status >= 500) console.log('Error handler:', err);
