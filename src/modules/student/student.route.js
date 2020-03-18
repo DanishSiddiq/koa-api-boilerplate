@@ -15,18 +15,18 @@ const routerStudent = (app) => {
                 method: 'post',
                 path: '/student',
                 validate: {
-                type: 'json',
-                body: joi.object({
-                    firstName: joi.string().required(),                
-                    lastName: joi.string().required(),                
-                    registrationNumber: joi.number().required(),                
-                    email: joi.string().email().required(),
-                    })
-                    .options(
-                        {                    
-                            abortEarly: false
-                        }),
-                },
+                    type: 'json',
+                    body: joi.object({
+                        firstName: joi.string().required(),                
+                        lastName: joi.string().required(),                
+                        registrationNumber: joi.number().required(),                
+                        email: joi.string().email().required(),
+                        })
+                        .options(                                
+                            {                                                
+                                abortEarly: false                            
+                            }),
+                    },
                 handler: ctlrStudent.createOne
             },
             { // get route
