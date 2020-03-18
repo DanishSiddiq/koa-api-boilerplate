@@ -2,65 +2,61 @@ const HttpStatus = require('http-status-codes');
 const studentService = require('../../services/student-service');
 
 /**
- *
- * @param request
- * @param response
- * @returns {Promise<void>}
+ * 
+ * @param {*} ctx 
  */
-const createOne = async (request, response) => {
+const createOne = async (ctx) => {
     try {
-        const document = await studentService.createOne(request.body);
-        response.status(HttpStatus.CREATED).json(document);
+        const document = await studentService.createOne(ctx.request.body);
+        ctx.status     = HttpStatus.CREATED;
+        ctx.body       = document;
     } catch (e) {
         throw e;
     }
 };
 
 /**
- *
- * @param request
- * @param response
- * @returns {Promise<void>}
+ * 
+ * @param {*} ctx 
  */
-const updateOne = async (request, response) => {
+const updateOne = async (ctx) => {
     try {
-        const result = await studentService.updateOne(request.params, request.query);
-        response.status(result.nModified ? HttpStatus.OK : HttpStatus.BAD_REQUEST).json(result.nModified === 1 ? { status: "ok" } : {});
+        const result    = await studentService.updateOne(ctx.params, ctx.query);
+        ctx.status      = result.nModified ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        ctx.body        = { status: "ok" };
+
     } catch (e) {
         throw e;
     }
 };
 
 /**
- *
- * @param request
- * @param response
- * @returns {Promise<void>}
+ * 
+ * @param {*} ctx 
  */
-const findOne = async (request, response) => {
+const findOne = async (ctx) => {
     try {
-        const requestParams = { ...request.body, ...request.query, ...request.params };
-        const document = await studentService.findOne(requestParams);
-        response.status(document ? HttpStatus.OK : HttpStatus.BAD_REQUEST).json(document || {});
+        const document      = await studentService.findOne(ctx.params);
+        ctx.status          = document ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        ctx.body            = document || {};
+
     } catch (e) {
         throw e;
     }
 };
 
 /**
- *
- * @param request
- * @param response
- * @returns {Promise<void>}
+ * 
+ * @param {*} ctx 
  */
-const deleteOne = async (request, response) => {
+const deleteOne = async (ctx) => {
     try {
-        const requestParams = { ...request.body, ...request.query, ...request.params };
-        const result = await studentService.deleteOne(requestParams);
-        const isSuccess = (result.n === 1 && result.ok === 1);
-        response
-            .status(isSuccess ? HttpStatus.OK : HttpStatus.BAD_REQUEST)
-            .json({ isSuccess });
+        const result        = await studentService.deleteOne(ctx.params);
+        const isSuccess     = (result.n === 1 && result.ok === 1);
+
+        ctx.status     = isSuccess ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+        ctx.body       = { isSuccess };
+
     } catch (e) {
         throw e;
     }

@@ -7,7 +7,7 @@ const envSchema = joi
   .object({
     NODE_ENV:     joi.string().allow(['dev', 'prod', 'test']),
     APP_PORT:     joi.number().optional().min(80).max(9000),
-    API_VERSION:  joi.number().optional(),
+    API_VERSION:  joi.string().optional(),
   })
   .unknown()
   .required();

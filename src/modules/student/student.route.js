@@ -1,10 +1,21 @@
-// const { Router } = require('express');
-// const studentController = require('./student.ctrl');
+const Router        = require('koa-router');
+const configServer  = require('../../config').server;
+const ctlrStudent   = require('./student.ctrl');
 
-// const router = Router();
-// router.post('/api/v1/student', studentController.createOne);
-// router.get('/api/v1/student/:_id', studentController.findOne);
-// router.put('/api/v1/student/:_id', studentController.updateOne);
-// router.delete('/api/v1/student/:_id', studentController.deleteOne);
 
-// module.exports = router;
+const routerStudent = (app) => {
+
+    const __ = new Router({
+        prefix: `/api/${configServer.apiVersion}`    
+    });
+
+    __
+    .post('/student', ctlrStudent.createOne)
+    .get('/student/:_id', ctlrStudent.findOne)
+    .put('/student/:_id', ctlrStudent.updateOne)
+    .delete('/student/:_id', ctlrStudent.deleteOne);
+
+    app.use(__.routes()).use(__.allowedMethods());
+};
+
+module.exports = routerStudent;

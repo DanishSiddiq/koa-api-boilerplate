@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const mongooseValidator = require('express-api-problem/mongoose-validator');
 
 const studentSchema = new mongoose.Schema(
     {
@@ -33,7 +32,5 @@ const studentSchema = new mongoose.Schema(
             timestamps: true,
     },
 );
-
-studentSchema.plugin(mongooseValidator);
 
 module.exports = mongoose.model('student', studentSchema, 'student');
