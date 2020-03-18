@@ -18,6 +18,7 @@ const studentSchema = new mongoose.Schema(
             },
             registrationNumber: {
                     type: Number,
+                    unique: true,
                     required: true
             },
             isEnabled: {
