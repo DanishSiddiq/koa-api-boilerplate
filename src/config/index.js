@@ -5,7 +5,7 @@ const path = require('path');
 const config = {};
 const basePath = path.join(__dirname, 'components');
 
-// Require all the files from the components folder and add the imported to a unique configuration object
+// forming a config from all files
 fs.readdirSync(basePath).forEach(file => {
   const componentConfig = require(path.join(basePath, file));
   Object.assign(config, componentConfig);

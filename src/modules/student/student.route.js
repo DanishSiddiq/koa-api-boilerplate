@@ -1,21 +1,62 @@
-const Router        = require('koa-router');
+const router        = require('koa-joi-router');
 const configServer  = require('../../config').server;
 const ctlrStudent   = require('./student.ctrl');
 
 
-const routerStudent = (app) => {
+const routerStudent = (app) => {    
 
-    const __ = new Router({
-        prefix: `/api/${configServer.apiVersion}`    
-    });
+    const joi   = router.Joi;
+    const __    = router();
 
-    __
-    .post('/student', ctlrStudent.createOne)
-    .get('/student/:_id', ctlrStudent.findOne)
-    .put('/student/:_id', ctlrStudent.updateOne)
-    .delete('/student/:_id', ctlrStudent.deleteOne);
-
-    app.use(__.routes()).use(__.allowedMethods());
+    __.prefix(`/api/${configServer.apiVersion}`);
+    __.route(
+        [
+            { // create route
+                method: 'post',
+                path: '/student',
+                validate: {
+                type: 'json',
+                body: joi.object({
+                    firstName: joi.string().required(),                
+                    lastName: joi.string().required(),                
+                    registrationNumber: joi.number().required(),                
+                    email: joi.string().email().required(),
+                    })
+                    .options(
+                        {                    
+                            abortEarly: false
+                        }),
+                },
+                handler: ctlrStudent.createOne
+            },
+            { // get route
+                method: 'get',
+                path: '/student/:_id',
+                handler: ctlrStudent.findOne
+            },
+            { // update route
+                method: 'put',
+                path: '/student/:_id',
+                validate: {
+                    query: joi.object({
+                        firstName: joi.string().required(),                
+                        lastName: joi.string().required(),
+                        })
+                        .options(
+                            {                    
+                                abortEarly: false
+                            }),
+                },
+                handler: ctlrStudent.updateOne
+            },
+            { // delete route
+                method: 'delete',
+                path: '/student/:_id',
+                handler: ctlrStudent.deleteOne
+            }       
+        ]
+    );
+    app.use(__.middleware());
 };
 
 module.exports = routerStudent;
