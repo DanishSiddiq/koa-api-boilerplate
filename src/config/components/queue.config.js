@@ -9,6 +9,7 @@ const envSchema = joi
     RABBIT_HOST:        joi.string().optional(),
     RABBIT_USER_NAME:   joi.string().optional(),
     RABBIT_PASSWORD:    joi.string().optional(),
+    RABBITMQ_RECONNECT_TIME: joi.number().optional()
   })
   .unknown()
   .required();
@@ -23,11 +24,12 @@ if (error) {
 
 const config = {
     rabbitMq: {
-        PORT:       envVars.RABBIT_PORT || 5772,
-        Host:       envVars.RABBIT_HOST || '',
-        USERNAME:   envVars.RABBIT_USER_NAME || '',
-        PASSWORD:   envVars.RABBIT_PASSWORD || '',
-        VHOST:      '/crm' 
+        port:       envVars.RABBIT_PORT || 5772,
+        host:       envVars.RABBIT_HOST || '',
+        userName:   envVars.RABBIT_USER_NAME || '',
+        password:   envVars.RABBIT_PASSWORD || '',
+        vHost:      '/crm',
+        reconnectTime: envVars.RABBITMQ_RECONNECT_TIME || 10000,
       },
 };
 
