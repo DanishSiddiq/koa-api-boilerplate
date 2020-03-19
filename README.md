@@ -34,35 +34,40 @@ http://localhost:3133/version
 
 * **Post:**
 ```
-http://localhost:3133/api/v1/student
+http://localhost:3133/api/v1/employee
 ```
 **Body:**
 ######
 ```
 {
 	"firstName": "Danish",
-	"lastName": "Siddiq",
-	"registrationNumber": 1234567,
-	"email": "danish.siddiq@email.com"
+    "lastName": "Siddiq",
+    "registrationNumber": 1234567,
+    "email": "danish.siddiq001@email.com",
+    "password": "123456",
+    "passwordVerify": "123456"
 }
 ```
 
 #
 * **Get:**
 ```
-http://localhost:3133/api/v1/student/:id
+http://localhost:3133/api/v1/employee
+Authorization: Bearer {token}
 ```
 
 #
 * **Put:**
 ```
-http://localhost:3133/api/v1/student/:id?firstName=danish1&lastName=siddiq1
+http://localhost:3133/api/v1/employee?firstName=danish1&lastName=siddiq1
+Authorization: Bearer {token}
 ```
 
 #
 * **Delete:**
 ```
-http://localhost:3133/api/v1/student/:id
+http://localhost:3133/api/v1/employee
+Authorization: Bearer {token}
 ```
 
 #
