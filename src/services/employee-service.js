@@ -1,4 +1,5 @@
-const studentModel  = require('../models/student-model');
+const cmn           = require('../helpers/common');
+const modelEmployee  = require('../models/employee-model');
 const Repository    = require('../models/data-access/repository');
 
 /**
@@ -7,7 +8,12 @@ const Repository    = require('../models/data-access/repository');
  * @returns {Promise<document>}
  */
 const createOne = async (data) => {
-    const repository    = new Repository(studentModel);
+    const repository    = new Repository(modelEmployee);
+
+    // hash password before storing to database
+    data.password = await cmn.hash(data.password);
+    // delete verify password field
+    delete data.passwordVerify;
     return repository.createOne(data);
 };
 
@@ -18,7 +24,7 @@ const createOne = async (data) => {
  * @returns {Promise<Query|*>}
  */
 const updateOne = async (whereClause, data) => {
-    const repository    = new Repository(studentModel);
+    const repository    = new Repository(modelEmployee);
     return repository.updateOne({ ...whereClause, _id: whereClause._id }, data);
 };
 
@@ -29,7 +35,7 @@ const updateOne = async (whereClause, data) => {
  * @returns {Promise<Promise<*>|Query|void|Promise<*|undefined>>}
  */
 const findOne = async (whereClause, projection = {}) => {
-    const repository    = new Repository(studentModel);
+    const repository    = new Repository(modelEmployee);
     return repository.findOne({ ...whereClause, _id: whereClause._id }, projection);
 };
 
@@ -39,7 +45,7 @@ const findOne = async (whereClause, projection = {}) => {
  * @returns {Promise<Promise<*>|Query|void|Promise<*|undefined>>}
  */
 const deleteOne = async (whereClause) => {
-    const repository    = new Repository(studentModel);
+    const repository    = new Repository(modelEmployee);
     return repository.deleteOne({ ...whereClause, _id: whereClause._id });
 };
 

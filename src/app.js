@@ -15,7 +15,7 @@ const { mongoDbConnect } = require('./database-connections/db.mongo');
 
 // routers file
 const routerHealth  = require('./modules/health/health.route');
-const routerStudent = require('./modules/student/student.route');
+const routerEmployee = require('./modules/employee/employee.route');
 
 // middle-wares
 // const ConfigLoaderMiddleware = require('./middlewares/config-loader');
@@ -33,7 +33,7 @@ if (!serverConfig.isTest) {
     app.use(logger);
     
     // setup connections
-    mongoDbConnect('DCS');
+    mongoDbConnect('flights');
 }
 
 // health routes for checking status of application and database connection
@@ -47,7 +47,7 @@ app
   .use(cors)
   .use(bodyParser);
 
-// student route
-routerStudent(app);
+// employee route
+routerEmployee(app);
 
 module.exports = app;

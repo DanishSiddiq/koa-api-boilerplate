@@ -1,5 +1,5 @@
 const HttpStatus        = require('http-status-codes');
-const studentService    = require('../../services/student-service');
+const studentService    = require('../../services/employee-service');
 
 /**
  * 
@@ -7,8 +7,7 @@ const studentService    = require('../../services/student-service');
  */
 const createOne = async (ctx) => {
     try {
-
-        // const document = await studentService.createOne(ctx.request.body);
+        const document = await studentService.createOne(ctx.request.body);
         ctx.status     = HttpStatus.CREATED;
         ctx.body       = document;
 

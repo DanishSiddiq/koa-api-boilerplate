@@ -1,5 +1,6 @@
-const fs = require('fs');
-const path = require('path');
+const fs      = require('fs');
+const path    = require('path');
+const bcrypt  = require('bcrypt');
 
 const cmn = {
 
@@ -60,6 +61,26 @@ const cmn = {
    * @returns {string|void|never}
    */
   stringFormat: (value, paramsArr) => value.replace(/{(\d+)}/g, (match, number) => (typeof paramsArr[number] !== 'undefined' ? paramsArr[number] : match)),
+
+
+  /**
+   * 
+   */
+  hash: async (data) => {
+    const saltRounds = 10;
+    
+    const hashedPassword = await new Promise((resolve, reject) => { 
+      bcrypt.hash(data, saltRounds, function(err, hash) {
+        if (err){
+          reject(err);
+        } 
+
+        resolve(hash);
+      });
+    });
+
+    return hashedPassword;
+  }
 };
 
 module.exports =  cmn;

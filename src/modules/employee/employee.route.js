@@ -1,9 +1,9 @@
 const router        = require('koa-joi-router');
 const configServer  = require('../../config').server;
-const ctlrStudent   = require('./student.ctrl');
+const ctlrEmployee   = require('./employee.ctrl');
 
 
-const routerStudent = (app) => {    
+const routeremployee = (app) => {    
 
     const joi   = router.Joi;
     const __    = router();
@@ -13,30 +13,32 @@ const routerStudent = (app) => {
         [
             { // create route
                 method: 'post',
-                path: '/student',
+                path: '/employee',
                 validate: {
                     type: 'json',
                     body: joi.object({
-                        firstName: joi.string().required(),                
-                        lastName: joi.string().required(),                
+                        firstName: joi.string().optional(),                
+                        lastName: joi.string().optional(),                
                         registrationNumber: joi.number().required(),                
                         email: joi.string().email().required(),
+                        password: joi.string().min(3).max(12).required(),
+                        passwordVerify: joi.any().valid(joi.ref('password')).required().options({ language: { any: { allowOnly: 'must match password' } } })
                         })
                         .options(                                
                             {                                                
                                 abortEarly: false                            
                             }),
                     },
-                handler: ctlrStudent.createOne
+                handler: ctlrEmployee.createOne
             },
             { // get route
                 method: 'get',
-                path: '/student/:_id',
-                handler: ctlrStudent.findOne
+                path: '/employee/:_id',
+                handler: ctlrEmployee.findOne
             },
             { // update route
                 method: 'put',
-                path: '/student/:_id',
+                path: '/employee/:_id',
                 validate: {
                     query: joi.object({
                         firstName: joi.string().required(),                
@@ -47,16 +49,16 @@ const routerStudent = (app) => {
                                 abortEarly: false
                             }),
                 },
-                handler: ctlrStudent.updateOne
+                handler: ctlrEmployee.updateOne
             },
             { // delete route
                 method: 'delete',
-                path: '/student/:_id',
-                handler: ctlrStudent.deleteOne
+                path: '/employee/:_id',
+                handler: ctlrEmployee.deleteOne
             }       
         ]
     );
     app.use(__.middleware());
 };
 
-module.exports = routerStudent;
+module.exports = routeremployee;
