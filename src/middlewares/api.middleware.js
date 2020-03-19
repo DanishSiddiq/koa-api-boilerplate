@@ -1,4 +1,6 @@
-const { logErrDetails }     = require('../helpers/logger');
+const HttpStatus          = require('http-status-codes');
+const { logErrDetails }   = require('../helpers/logger');
+
 
 module.exports = async (ctx, next) => {
   try {    
@@ -6,14 +8,10 @@ module.exports = async (ctx, next) => {
   
   } catch (err) {
     
-    if (err.status >= 500){
-      logErrDetails( { message: `Error handler in api middleware`, error: err, additionalData: { request: ctx.request }  } );
-    }
+    // logg error
+    logErrDetails( { message: `Error handler in api middleware`, error: err, additionalData: { request: ctx.request }  } );
 
-    ctx.status = err.status || 500;
-    ctx.body = {
-      status: 'failed',
-      message: err.message || 'error',
-    };
+    ctx.status  = err.status || HttpStatus.INTERNAL_SERVER_ERROR;
+    ctx.body    = { status: 'failed', message: err.message || 'error' };
   }
 };
