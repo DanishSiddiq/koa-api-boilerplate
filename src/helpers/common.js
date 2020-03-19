@@ -1,5 +1,9 @@
-const fs = require('fs');
-const path = require('path');
+const fs      = require('fs');
+const path    = require('path');
+const bcrypt  = require('bcrypt');
+const jwt  = require('jsonwebtoken');
+
+const configServer = require('../config').server;
 
 const cmn = {
 
@@ -60,6 +64,45 @@ const cmn = {
    * @returns {string|void|never}
    */
   stringFormat: (value, paramsArr) => value.replace(/{(\d+)}/g, (match, number) => (typeof paramsArr[number] !== 'undefined' ? paramsArr[number] : match)),
+
+
+  /**
+   * 
+   */
+  hash: async (data) => {
+    const saltRounds = 10;
+    
+    const hashedPassword = await new Promise((resolve, reject) => { 
+      bcrypt.hash(data, saltRounds, function(err, hash) {
+        if (err){
+          reject(err);
+        } 
+
+        resolve(hash);
+      });
+    });
+
+    return hashedPassword;
+  },
+
+  /**
+   * 
+   */
+  generateJWTToken: async (data) => {
+    return jwt.sign(data, configServer.jwtKey, { expiresIn: '1h' });
+ },
+
+ /**
+  * 
+  */
+ verifyToken: (jwtToken) => {
+   try {
+    return jwt.verify(jwtToken, configServer.jwtKey);
+   } catch (err){
+     throw new Error('Invalid token');
+   }
+ },
+
 };
 
 module.exports =  cmn;

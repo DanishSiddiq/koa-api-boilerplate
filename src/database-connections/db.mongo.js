@@ -8,7 +8,7 @@ const { logErrDetails, logInfoDetails } = require('../helpers/logger');
  *
  * @param label
  */
-const mongoDbConnect = (label = 'DCS') => {
+const mongoDbConnect = (label = 'flights') => {
 
   const mongoDsn  = databaseConfig.mongo.DCS;
   const mongoOpt  = databaseConfig.mongo.OPT;
