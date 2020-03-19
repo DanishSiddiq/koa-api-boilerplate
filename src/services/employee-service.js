@@ -1,5 +1,5 @@
 const cmn           = require('../helpers/common');
-const modelEmployee  = require('../models/employee-model');
+const modelEmployee = require('../models/employee-model');
 const Repository    = require('../models/data-access/repository');
 
 /**
@@ -13,7 +13,8 @@ const createOne = async (data) => {
     // hash password before storing to database
     data.password = await cmn.hash(data.password);
     // delete verify password field
-    delete data.passwordVerify;
+    delete data.passwordVerify;  
+
     return repository.createOne(data);
 };
 
