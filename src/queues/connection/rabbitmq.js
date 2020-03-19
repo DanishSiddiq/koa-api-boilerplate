@@ -1,27 +1,29 @@
-const amqp = require('amqplib');
-const { config } = require('../../helper/config');
+const amqp            = require('amqplib');
+const configRabbitMQ  = require('../config').rabbitMq;
 const { logInfoDetails, logErrDetails } = require('../../helper/logger');
-const { RABBIT_QUEUE_CONNECTED,
+const { 
+  RABBIT_QUEUE_CONNECTED,
   RABBIT_QUEUE_CONNECTION_ERROR,
-  RABBIT_QUEUE_DISCONNECTED } = require('../../constants/info-constants');
+  RABBIT_QUEUE_DISCONNECTED 
+} = require('../../constants/info-constants');
 
 /*
 to track status of the connection, it is not available on channel
  */
 let isQueueConnectionAlive = true;
 let channel = null;
-const reConnectLapse = parseInt(config.get('RABBITMQ_RECONNECT_TIME' , 10000));
+const reConnectLapse = configRabbitMQ.reconnectTime;
 
 /*
 rabbit config
  */
 const host = {
   protocol: 'amqp',
-  hostname: config.get('RABBITMQ_HOST', ''),
-  port: config.get('RABBITMQ_PORT', ''),
-  username: config.get('RABBITMQ_USERNAME', ''),
-  password: config.get('RABBITMQ_PASSWORD', ''),
-  vhost: config.get('RABBITMQ_VHOST', ''),
+  hostname: configRabbitMQ.host,
+  port: configRabbitMQ.port,
+  username: configRabbitMQ.userName,
+  password: configRabbitMQ.password,
+  vhost: configRabbitMQ.vHost,
 };
 
 /*
@@ -73,7 +75,7 @@ const connectRabbitMQ = async (host) => {
 attach queue with a callback
  */
 const subscribeQueue = async () => {
-  const preFetchCount = parseInt(config.get('RABBITMQ_PRE_FETCH_MSG', 10));
+  const preFetchCount = parseInt(configRabbitMQ.get('RABBITMQ_PRE_FETCH_MSG', 10));
   channel.prefetch(preFetchCount);
 
   for (let key in queue){

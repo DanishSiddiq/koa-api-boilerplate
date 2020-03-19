@@ -18,10 +18,10 @@ const routerUnGuardedEmployee = require('./modules/employee/employee.unguarded.r
 // mongodb
 const { mongoDbConnect } = require('./database-connections/db.mongo');
 
-// swagger
+// @TODO:: swagger
 // const swaggerDocument    = require('./swagger.json');
 
-// rabbitmq if required producer & listener
+// rabbitmq if required producer & listener logic but it need some work like setting up queues
 // const { initiateRabbitMQ } = require('./queues/connection/rabbitmq');
 
 const app = new koa();
