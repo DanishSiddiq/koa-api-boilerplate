@@ -19,5 +19,6 @@ module.exports = async (ctx, next) => {
     // to utilize employee information in current pipeline for other middlewares
     ctx.request.employee = employee;
 
+    // proceed
     await next();
 };

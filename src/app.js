@@ -11,8 +11,9 @@ const middlewareAuthorization = require('./middlewares/authorize.middleware');
 const middlewareAPI           = require('./middlewares/api.middleware');
 
 // routers file
-const routerHealth    = require('./modules/health/health.route');
-const routerEmployee  = require('./modules/employee/employee.route');
+const routerUnGuardedHealth   = require('./modules/health/health.unguarded.route');
+const routerGuardedEmployee   = require('./modules/employee/employee.guarded.route');
+const routerUnGuardedEmployee = require('./modules/employee/employee.unguarded.route');
 
 // mongodb
 const { mongoDbConnect } = require('./database-connections/db.mongo');
@@ -36,18 +37,24 @@ if (!serverConfig.isTest) {
 }
 
 // health routes for checking status of application and database connection
-routerHealth(app);
+routerUnGuardedHealth(app);
 
 // middlwares and server configurations
+app.use(middlewareAPI);  // every api processing gateway
+
+// unguarded routes
+routerUnGuardedEmployee(app);
+
+// middleware configurations and authorization layer
 app
-  .use(middlewareAPI)  // all api processing gateway
   .use(middlewareAuthorization) // authorization and authentication middles
   .use(helmet)
   .use(compress)
   .use(cors)
   .use(bodyParser);
 
-// employee route
-routerEmployee(app);
+// guarded routes
+routerGuardedEmployee(app);
+
 
 module.exports = app;

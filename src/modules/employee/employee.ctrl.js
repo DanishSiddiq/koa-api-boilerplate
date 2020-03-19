@@ -42,7 +42,11 @@ const updateOne = async (ctx) => {
 const findOne = async (ctx) => {
     try {
         // although it is possible to return employee from request but it is only for illustration purpose to fetch data from db
-        const document      = await serviceEmployee.findOne({ _id: ctx.request.employee._id });
+        let document      = await serviceEmployee.findOne({ _id: ctx.request.employee._id });
+        if(document){
+            document.password = undefined;
+        }
+
         ctx.status          = document ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         ctx.body            = document || {};
 
