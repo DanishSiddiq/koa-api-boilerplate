@@ -1,25 +1,24 @@
 const koa           = require('koa');
 const bodyParser    = require('koa-bodyparser')();
 const compress      = require('koa-compress')();
-const cors          = require('@koa/cors')(/* Add your cors option */);
-const helmet        = require('koa-helmet')(/* Add your security option */);
+const cors          = require('@koa/cors')(); // cors
+const helmet        = require('koa-helmet')(); // security
 const logger        = require('koa-logger')();
-const errorHandler  = require('./middlewares/error.middleware');
 const serverConfig  = require('./config').server;
+
+// middle-wares
+const middlewareAuthorization = require('./middlewares/authorize.middleware');
+const middlewareAPI           = require('./middlewares/api.middleware');
+
+// routers file
+const routerHealth    = require('./modules/health/health.route');
+const routerEmployee  = require('./modules/employee/employee.route');
 
 // mongodb
 const { mongoDbConnect } = require('./database-connections/db.mongo');
 
 // swagger
 // const swaggerDocument    = require('./swagger.json');
-
-// routers file
-const routerHealth  = require('./modules/health/health.route');
-const routerEmployee = require('./modules/employee/employee.route');
-
-// middle-wares
-// const ConfigLoaderMiddleware = require('./middlewares/config-loader');
-// const RouteNotFoundMiddleware = require('./middlewares/not-found');
 
 // rabbitmq if required producer & listener
 // const { initiateRabbitMQ } = require('./queues/connection/rabbitmq');
@@ -41,7 +40,8 @@ routerHealth(app);
 
 // middlwares and server configurations
 app
-  .use(errorHandler)
+  .use(middlewareAPI)  // all api processing gateway
+  .use(middlewareAuthorization) // authorization and authentication middles
   .use(helmet)
   .use(compress)
   .use(cors)
