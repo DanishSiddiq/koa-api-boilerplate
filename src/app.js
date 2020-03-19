@@ -37,7 +37,7 @@ if (!serverConfig.isTest) {
 }
 
 // health routes for checking status of application and database connection
-// routerHealth(app);
+routerHealth(app);
 
 // middlwares and server configurations
 app

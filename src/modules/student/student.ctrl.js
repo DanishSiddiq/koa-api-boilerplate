@@ -1,6 +1,5 @@
 const HttpStatus        = require('http-status-codes');
 const studentService    = require('../../services/student-service');
-const studentValidator    = require('./student.validator');
 
 /**
  * 
@@ -8,20 +7,6 @@ const studentValidator    = require('./student.validator');
  */
 const createOne = async (ctx) => {
     try {
-        // const data = ctx.request.body;
-        // const { error } = await studentValidator.createOne(data);
-        
-        // if(error) {
-        //     throw error;
-        // }
-
-        if (ctx.invalid) {
-            console.log(ctx.invalid.header);
-            console.log(ctx.invalid.query);
-            console.log(ctx.invalid.params);
-            console.log(ctx.invalid.body);
-            console.log(ctx.invalid.type);
-          }
 
         // const document = await studentService.createOne(ctx.request.body);
         ctx.status     = HttpStatus.CREATED;
