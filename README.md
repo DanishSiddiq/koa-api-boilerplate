@@ -40,7 +40,7 @@ http://localhost:3133/api/v1/employee
 ######
 ```
 {
-	"firstName": "Danish",
+    "firstName": "Danish",
     "lastName": "Siddiq",
     "registrationNumber": 1234567,
     "email": "danish.siddiq001@email.com",
