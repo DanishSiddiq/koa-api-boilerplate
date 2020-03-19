@@ -1,6 +1,9 @@
 const fs      = require('fs');
 const path    = require('path');
 const bcrypt  = require('bcrypt');
+const jwt  = require('jsonwebtoken');
+
+const configServer = require('../config').server;
 
 const cmn = {
 
@@ -80,7 +83,14 @@ const cmn = {
     });
 
     return hashedPassword;
-  }
+  },
+
+  /**
+   * 
+   */
+  generateJWTToken: async (data) => {
+    return jwt.sign(data, configServer.jwtKey);
+ },
 };
 
 module.exports =  cmn;

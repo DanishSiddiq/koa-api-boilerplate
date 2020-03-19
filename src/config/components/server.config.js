@@ -28,6 +28,8 @@ const config = {
     isProd:     envVars.NODE_ENV === 'prod',
     port:       envVars.APP_PORT    || 3133,
     apiVersion: envVars.API_VERSION || 'v1',
+    apiKey:     envVars.API_KEY     || 'wD1s2puwqRE1s2',
+    jwtKey:     envVars.JWT_KEY     || 'kq1dQi6zQaZ2m',
   },
 };
 

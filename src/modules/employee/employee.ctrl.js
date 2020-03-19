@@ -1,5 +1,6 @@
 const HttpStatus        = require('http-status-codes');
-const studentService    = require('../../services/employee-service');
+const serviceEmployee   = require('../../services/employee-service');
+const cmn               = require('../../helpers/common');
 
 /**
  * 
@@ -7,9 +8,12 @@ const studentService    = require('../../services/employee-service');
  */
 const createOne = async (ctx) => {
     try {
-        const document = await studentService.createOne(ctx.request.body);
+        const document = await serviceEmployee.createOne(ctx.request.body);
         ctx.status     = HttpStatus.CREATED;
-        ctx.body       = document;
+
+        // return jwt
+        const token    = await cmn.generateJWTToken({ _id: document._id });
+        ctx.body       = { status: 'success', token };
 
     } catch (e) {
         throw e;
@@ -22,7 +26,7 @@ const createOne = async (ctx) => {
  */
 const updateOne = async (ctx) => {
     try {
-        const result    = await studentService.updateOne(ctx.params, ctx.query);
+        const result    = await serviceEmployee.updateOne(ctx.params, ctx.query);
         ctx.status      = result.nModified ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         ctx.body        = { status: "ok" };
 
@@ -37,7 +41,7 @@ const updateOne = async (ctx) => {
  */
 const findOne = async (ctx) => {
     try {
-        const document      = await studentService.findOne(ctx.params);
+        const document      = await serviceEmployee.findOne(ctx.params);
         ctx.status          = document ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         ctx.body            = document || {};
 
@@ -52,7 +56,7 @@ const findOne = async (ctx) => {
  */
 const deleteOne = async (ctx) => {
     try {
-        const result        = await studentService.deleteOne(ctx.params);
+        const result        = await serviceEmployee.deleteOne(ctx.params);
         const isSuccess     = (result.n === 1 && result.ok === 1);
 
         ctx.status     = isSuccess ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
