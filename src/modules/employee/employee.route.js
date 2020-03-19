@@ -33,12 +33,12 @@ const routeremployee = (app) => {
             },
             { // get route
                 method: 'get',
-                path: '/employee/:_id',
+                path: '/employee',
                 handler: ctlrEmployee.findOne
             },
             { // update route
                 method: 'put',
-                path: '/employee/:_id',
+                path: '/employee',
                 validate: {
                     query: joi.object({
                         firstName: joi.string().required(),                
@@ -53,7 +53,7 @@ const routeremployee = (app) => {
             },
             { // delete route
                 method: 'delete',
-                path: '/employee/:_id',
+                path: '/employee',
                 handler: ctlrEmployee.deleteOne
             }       
         ]

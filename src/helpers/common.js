@@ -89,8 +89,20 @@ const cmn = {
    * 
    */
   generateJWTToken: async (data) => {
-    return jwt.sign(data, configServer.jwtKey);
+    return jwt.sign(data, configServer.jwtKey, { expiresIn: '1h' });
  },
+
+ /**
+  * 
+  */
+ verifyToken: (jwtToken) => {
+   try {
+    return jwt.verify(jwtToken, configServer.jwtKey);
+   } catch (err){
+     throw new Error('Invalid token');
+   }
+ },
+
 };
 
 module.exports =  cmn;
