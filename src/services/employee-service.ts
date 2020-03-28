@@ -1,13 +1,15 @@
+import { Employee } from '../models/interface/employee';
+
 const cmn           = require('../helpers/common');
 const modelEmployee = require('../models/employee-model');
 const Repository    = require('../models/data-access/repository');
 
+
 /**
- *
- * @param data
- * @returns {Promise<document>}
+ * 
+ * @param data 
  */
-const createOne = async (data) => {
+const createOne = async (data: Employee): Promise<Employee> => {
     const repository    = new Repository(modelEmployee);
 
     // hash password before storing to database
@@ -19,33 +21,30 @@ const createOne = async (data) => {
 };
 
 /**
- *
- * @param whereClause
- * @param data
- * @returns {Promise<Query|*>}
+ * 
+ * @param whereClause 
+ * @param data 
  */
-const updateOne = async (whereClause, data) => {
+const updateOne = async (whereClause, data: Employee): Promise<Employee> => {
     const repository    = new Repository(modelEmployee);
     return repository.updateOne({ ...whereClause, _id: whereClause._id }, data);
 };
 
 /**
- *
- * @param whereClause
- * @param projection
- * @returns {Promise<Promise<*>|Query|void|Promise<*|undefined>>}
+ * 
+ * @param whereClause 
+ * @param projection 
  */
-const findOne = async (whereClause, projection = {}) => {
+const findOne = async (whereClause, projection = {}): Promise<Employee> => {
     const repository    = new Repository(modelEmployee);
     return repository.findOne({ ...whereClause, _id: whereClause._id }, projection);
 };
 
 /**
- *
- * @param whereClause
- * @returns {Promise<Promise<*>|Query|void|Promise<*|undefined>>}
+ * 
+ * @param whereClause 
  */
-const deleteOne = async (whereClause) => {
+const deleteOne = async (whereClause): Promise<Employee> => {
     const repository    = new Repository(modelEmployee);
     return repository.deleteOne({ ...whereClause, _id: whereClause._id });
 };
