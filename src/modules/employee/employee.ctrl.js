@@ -24,6 +24,40 @@ const createOne = async (ctx) => {
  * 
  * @param {*} ctx 
  */
+const login = async (ctx) => {
+    try {
+        let message;
+        const data      = ctx.request.body;
+        const document  = await serviceEmployee.findOne({ email: data.email });
+        if(document){
+            const isMatched = await cmn.compareHash(data.password, document.password);            
+            if (isMatched) {
+
+                const token   = await cmn.generateJWTToken({ _id: document._id });
+
+                ctx.status    = HttpStatus.OK;
+                ctx.body      = { status: 'success', token };
+                return;
+            }
+            else{
+                message = 'Credentials does not match';
+            }
+        } else {
+            message = 'User does not exist';
+        }
+
+        ctx.status  = HttpStatus.BAD_REQUEST;
+        ctx.body    = { status: 'failure', message };
+
+    } catch (e) {
+        throw e;
+    }
+};
+
+/**
+ * 
+ * @param {*} ctx 
+ */
 const updateOne = async (ctx) => {
     try {
         const result    = await serviceEmployee.updateOne({ _id: ctx.request.employee._id }, ctx.query);
@@ -72,5 +106,5 @@ const deleteOne = async (ctx) => {
     }
 };
 
-module.exports = { findOne, createOne, updateOne, deleteOne };
+module.exports = { findOne, createOne, updateOne, deleteOne, login };
 

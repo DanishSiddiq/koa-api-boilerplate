@@ -85,6 +85,22 @@ const cmn = {
     return hashedPassword;
   },
 
+  compareHash: async(data, hash) => {
+
+    const hashCompare = await new Promise((resolve, reject) => { 
+      bcrypt.compare(data, hash, function(err, res) {
+
+        if(err){
+          reject(err);
+        }
+
+        resolve(res);
+      });
+    });
+
+    return hashCompare;
+  },
+
   /**
    * 
    */
