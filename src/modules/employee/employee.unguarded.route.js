@@ -11,7 +11,23 @@ const routerUnGuardedEmployee = (app) => {
     __.prefix(`/api/${configServer.apiVersion}`);
     __.route(
         [
-            { // create route
+            { // login
+                method: 'post',
+                path: '/employee/login',
+                validate: {
+                    type: 'json',
+                    body: joi.object({
+                        email: joi.string().email().required(),
+                        password: joi.string().min(3).max(12).required(),
+                        })
+                        .options(                                
+                            {                                                
+                                abortEarly: false                            
+                            }),
+                    },
+                handler: ctlrEmployee.login
+            },
+            { // registration
                 method: 'post',
                 path: '/employee',
                 validate: {

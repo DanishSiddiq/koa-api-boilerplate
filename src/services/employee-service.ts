@@ -37,7 +37,7 @@ const updateOne = async (whereClause, data: Employee): Promise<Employee> => {
  */
 const findOne = async (whereClause, projection = {}): Promise<Employee> => {
     const repository    = new Repository(modelEmployee);
-    return repository.findOne({ ...whereClause, _id: whereClause._id }, projection);
+    return repository.findOne({ ...whereClause, ...( whereClause._id && { _id: whereClause._id } ) } , projection);
 };
 
 /**
