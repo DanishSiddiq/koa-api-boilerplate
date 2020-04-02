@@ -25,6 +25,10 @@ const { mongoDbConnect } = require('./database-connections/db.mongo');
 // const { initiateRabbitMQ } = require('./queues/connection/rabbitmq');
 
 const app = new koa();
+app.use(helmet)
+    .use(compress)
+    .use(cors)
+    .use(bodyParser);
 
 /**
  * Add here only development middlewares
@@ -46,15 +50,9 @@ app.use(middlewareAPI);  // every api processing gateway
 routerUnGuardedEmployee(app);
 
 // middleware configurations and authorization layer
-app
-  .use(middlewareAuthorization) // authorization and authentication middles
-  .use(helmet)
-  .use(compress)
-  .use(cors)
-  .use(bodyParser);
+app.use(middlewareAuthorization); // authorization and authentication middles
 
 // guarded routes
 routerGuardedEmployee(app);
-
 
 module.exports = app;
