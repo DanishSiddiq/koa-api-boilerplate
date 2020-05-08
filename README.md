@@ -43,7 +43,7 @@ http://localhost:3133/api/v1/employee
     "firstName": "Danish",
     "lastName": "Siddiq",
     "registrationNumber": 1234567,
-    "email": "danish.siddiq001@email.com",
+    "email": "danish.siddiq@email.com",
     "password": "123456",
     "passwordVerify": "123456"
 }
