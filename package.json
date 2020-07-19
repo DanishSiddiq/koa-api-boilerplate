@@ -40,7 +40,7 @@
     "koa-joi-router": "^6.0.2",
     "koa-logger": "3.2.0",
     "koa-router": "7.4.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mongoose": "^5.9.1",
     "morgan": "^1.9.1"
   },
